@@ -11,7 +11,7 @@ use nalgebra::linalg::Cholesky;
 use statrs::function::erf::erf;
 use std::f64::consts::{PI, SQRT_2};
 
-fn sigma_n(x: &DVector<f64>, u0: f64, v: f64, sigma0: f64, k: f64) -> f64 {
+pub fn sigma_n(x: &DVector<f64>, u0: f64, v: f64, sigma0: f64, k: f64) -> f64 {
     let n = x.len();
     let ident = DMatrix::<f64>::identity(n, n);
     let inv_v = DMatrix::<f64>::from_element(n, n, 1.0 / v);
@@ -25,7 +25,7 @@ fn sigma_n(x: &DVector<f64>, u0: f64, v: f64, sigma0: f64, k: f64) -> f64 {
 }
 
 #[rustfmt::skip]
-fn posterior_integral(x: &DVector<f64>, u0: f64, v: f64, sigma0: f64, k: f64) -> f64 {
+pub fn posterior_integral(x: &DVector<f64>, u0: f64, v: f64, sigma0: f64, k: f64) -> f64 {
     let a = sigma_n(x, u0, v, sigma0, k);
     let b = x.mean();
     1.0/2.0*PI.sqrt()*a.sqrt()*(erf(1.0/2.0*SQRT_2*(b - u0)/a.sqrt()) + 1.0)/(PI*a).sqrt()
